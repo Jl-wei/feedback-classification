@@ -1,5 +1,6 @@
 __pycache__
-/models/*
+models
+.vscode
 
 .DS_Store
 *.log

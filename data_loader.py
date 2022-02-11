@@ -1,12 +1,13 @@
 from transformers import BertTokenizer
 from torch.utils.data import TensorDataset
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
+from sklearn import preprocessing
 import numpy as np
 import torch
 import logging
 
 
-def prepare_dataset(dataset):
+def prepare_dataset(dataset, string_label = False):
 
     sentences = dataset.reviews.values
     labels = np.array(dataset.Judgement)
@@ -61,6 +62,8 @@ def prepare_dataset(dataset):
     # Convert the lists into tensors.
     input_ids = torch.cat(input_ids, dim=0)
     attention_masks = torch.cat(attention_masks, dim=0)
+    if string_label:
+        labels = convert_judgements_to_number(labels)
     labels = torch.tensor(labels)
 
     # Print sentence 0, now as a list of IDs.
@@ -97,3 +100,8 @@ def get_loader(input_ids, attention_masks, labels, batch_size=32, loader_type="T
             batch_size=batch_size,  # Evaluate with this batch size.
         )
     return dataloader
+
+def convert_judgements_to_number(labels):
+    le = preprocessing.LabelEncoder()
+    targets = le.fit_transform(labels)
+    return targets
