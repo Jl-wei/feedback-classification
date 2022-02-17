@@ -8,6 +8,9 @@ import random
 from nltk.tokenize import WhitespaceTokenizer
 from allennlp.modules.elmo import batch_to_ids
 from transformers import BertTokenizer
+import json
+from pathlib import Path
+from collections import OrderedDict
 
 
 # Function to calculate the accuracy of our predictions vs labels
@@ -41,6 +44,11 @@ def get_device():
 
 def current_utc_time():
     return datetime.datetime.now().astimezone(tz.tzutc())
+
+def read_json(fname):
+    fname = Path(fname)
+    with fname.open('rt') as handle:
+        return json.load(handle, object_hook=OrderedDict)
 
 
 # https://github.com/ylhsieh/pytorch-elmo-classification
