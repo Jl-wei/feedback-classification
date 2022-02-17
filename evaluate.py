@@ -49,7 +49,7 @@ def evaluate_model(model, dataloader):
     logging.info(f"Prediction: {pred}")
     logging.info(f"Truth: {truth}")
 
-    report = classification_report(truth, pred, output_dict=True)
+    report = classification_report(truth, pred)
 
     logging.info(f"Classification Report: \n {report}")
     print(f"Classification Report: \n {report}")

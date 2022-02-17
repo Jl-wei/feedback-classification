@@ -79,7 +79,7 @@ def main(config):
         model_to_save = (
             model.module if hasattr(model, "module") else model
         )  # Take care of distributed/parallel training
-        model_to_save.save_pretrained('./models/')
+        model_to_save.save_pretrained(f"./models/{name}/")
 
 def train(config, train_dataloader, val_dataloader):
     # model
