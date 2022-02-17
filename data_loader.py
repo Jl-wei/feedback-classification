@@ -108,7 +108,7 @@ def train_test_dataloader(config):
     data_file = pd.read_excel(f"./data/{config['data_file']}.xlsx")
     
     # Separate evaluation dataset
-    train, test = train_test_split(data_file, test_size=config['test_size'])
+    train, test = train_test_split(data_file, test_size=config['test_size'], stratify = np.array(data_file[config['label_column']]))
     
     # Prepare dataset
     input_ids, attention_masks, labels = prepare_dataset(train, string_label = True)
