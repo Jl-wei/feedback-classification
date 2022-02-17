@@ -21,7 +21,7 @@ reload(logging)
 model_name = "BERT"
 seed = 57
 epochs = 15
-batch_size = 16
+batch_size = 8
 learning_rate = 2e-4
 epsilon = 1e-8
 golden_3 = pd.read_excel("./data/P3-Golden.xlsx")
