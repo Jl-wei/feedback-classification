@@ -3,14 +3,23 @@ from datetime import datetime
 from transformers import BertForSequenceClassification
 
 from data_loader import train_test_dataloader
-from utilities import read_json
+from utilities import read_json, get_device
 from evaluate import evaluate_model
 
 
 def main(config):
+    name = f"{config['model_name']}-{config['data_file']}-test"
+    logging.basicConfig(
+        filename=f"./logs/{config['model_name']}-{config['data_file']}.log",
+        filemode="a",
+        format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
+        datefmt="%H:%M:%S",
+        level=logging.INFO,
+    )
+
     train_dataloader, val_dataloader = train_test_dataloader(config)
 
-    model = BertForSequenceClassification.from_pretrained(f"./models/{config['load_model']}")
+    model = BertForSequenceClassification.from_pretrained(f"./models/{config['load_model']}").to(get_device())
 
     eval_time_start = datetime.now()
     eval_report = evaluate_model(model, val_dataloader)

@@ -4,7 +4,7 @@
     "seed": 57,
 
     "test_size": 0.2,
-    "epochs": 15,
+    "epochs": 1,
     "batch_size": 4,
     "learning_rate": 2e-4,
     "epsilon": 1e-8,
