@@ -9,7 +9,7 @@ import pickle
 from sklearn.metrics import classification_report
 from models import get_model
 from utilities import Corpus, batchify
-from train import train_elmo
+from trainer import train_elmo
 from evaluate import evaluate_elmo
 import collections
 import torch.optim as optim

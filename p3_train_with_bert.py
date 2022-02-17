@@ -9,7 +9,7 @@ from imp import reload
 from data_loader import get_loader, prepare_dataset
 from transformers import AdamW, get_linear_schedule_with_warmup
 from models import get_model
-from train import train_model
+from trainer import train_model
 from evaluate import evaluate_model
 import pickle
 from datetime import datetime
