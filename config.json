@@ -9,8 +9,11 @@
     "learning_rate": 2e-4,
     "epsilon": 1e-8,
 
+    "num_labels": 2,
+
     "data_file": "P1-Golden",
     "string_label": false,
     "save_model": true,
-    "output_dir": "./models/"
+
+    "load_model": ""
 }

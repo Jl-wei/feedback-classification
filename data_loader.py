@@ -2,13 +2,15 @@ from transformers import BertTokenizer
 from torch.utils.data import TensorDataset
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+
 import numpy as np
 import torch
 import logging
+import pandas as pd
 
 
 def prepare_dataset(dataset, string_label = False):
-
     sentences = dataset.reviews.values
     labels = np.array(dataset.Judgement)
 
@@ -100,6 +102,25 @@ def get_loader(input_ids, attention_masks, labels, batch_size=32, loader_type="T
             batch_size=batch_size,  # Evaluate with this batch size.
         )
     return dataloader
+
+
+def train_test_dataloader(config):
+    data_file = pd.read_excel(f"./data/{config['data_file']}.xlsx")
+    
+    # Separate evaluation dataset
+    train, test = train_test_split(data_file, test_size=config['test_size'])
+    
+    # Prepare dataset
+    input_ids, attention_masks, labels = prepare_dataset(train, string_label = True)
+    val_input_ids, val_attention_masks, val_labels = prepare_dataset(test, string_label = config['string_label'])
+
+    train_dataloader = get_loader(input_ids, attention_masks, labels, batch_size=config['batch_size'])
+    val_dataloader = get_loader(
+        val_input_ids, val_attention_masks, val_labels, batch_size=config['batch_size'], loader_type="VALIDATE"
+    )
+    
+    return train_dataloader, val_dataloader
+
 
 def convert_judgements_to_number(labels):
     le = preprocessing.LabelEncoder()

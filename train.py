@@ -6,11 +6,10 @@ import logging
 import os
 import pickle
 from imp import reload
-from sklearn.model_selection import train_test_split
 from datetime import datetime
 from transformers import AdamW, get_linear_schedule_with_warmup
 
-from data_loader import get_loader, prepare_dataset
+from data_loader import train_test_dataloader
 from models import get_model
 from trainer import train_model
 from utilities import get_device, read_json
@@ -37,7 +36,7 @@ def main(config):
         level=logging.INFO,
     )
     
-    train_dataloader, val_dataloader = train_test_dataset(config)
+    train_dataloader, val_dataloader = train_test_dataloader(config)
 
     logging.info(f"Number of train samples: {len(train_dataloader)}")
     logging.info(f"Number of validation samples: {len(val_dataloader)}")
@@ -64,9 +63,10 @@ def main(config):
     print(f"Evaluation Report: \n {eval_report}")
     
     # Save report
-    with open(f"{name}.pkl", "wb") as f:
+    with open(f"./reports/{name}.pkl", "wb") as f:
         pickle.dump(training_stats, f)
 
+    # Save model
     if config['save_model']:
         # Create output directory if needed
         if not os.path.exists('./models/'):
@@ -81,27 +81,9 @@ def main(config):
         )  # Take care of distributed/parallel training
         model_to_save.save_pretrained('./models/')
 
-    
-def train_test_dataset(config):
-    data_file = pd.read_excel(f"./data/{config['data_file']}.xlsx")
-    
-    # Separate evaluation dataset
-    train, test = train_test_split(data_file, test_size=config['test_size'])
-    
-    # Prepare dataset
-    input_ids, attention_masks, labels = prepare_dataset(train, string_label = True)
-    val_input_ids, val_attention_masks, val_labels = prepare_dataset(test, string_label = config['string_label'])
-
-    train_dataloader = get_loader(input_ids, attention_masks, labels, batch_size=config['batch_size'])
-    val_dataloader = get_loader(
-        val_input_ids, val_attention_masks, val_labels, batch_size=config['batch_size'], loader_type="VALIDATE"
-    )
-    
-    return train_dataloader, val_dataloader
-
 def train(config, train_dataloader, val_dataloader):
     # model
-    model = get_model(config['model_name'], num_labels = 5).to(get_device())
+    model = get_model(config['model_name'], num_labels = config['num_labels']).to(get_device())
 
     # Optimizer
     optimizer = AdamW(
@@ -136,6 +118,7 @@ if __name__ == '__main__':
     main(config)
     
     config['data_file'] = "P3-Golden"
+    config['num_labels'] = 5
     config['string_label'] = True
     main(config)
     
