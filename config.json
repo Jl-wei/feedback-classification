@@ -2,9 +2,9 @@
     "model_name": "BERT",
 
     "test_size": 0.2,
-    "epochs": 1,
+    "epochs": 15,
     "batch_size": 4,
-    "learning_rate": 2e-4,
+    "learning_rate": 5e-5,
     "epsilon": 1e-8,
 
     "num_labels": 2,
