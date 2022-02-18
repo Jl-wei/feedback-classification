@@ -2,3 +2,4 @@ torch
 nltk
 allennlp
 openpyxl
+xlsxwriter
