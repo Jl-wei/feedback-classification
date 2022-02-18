@@ -30,7 +30,7 @@ def main(config):
     name = f"{config['model_name']}-{config['data_file']}"
     logging.basicConfig(
         filename=f"./logs/{config['model_name']}-{config['data_file']}.log",
-        filemode="a",
+        filemode="w",
         format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
         datefmt="%H:%M:%S",
         level=logging.INFO,
