@@ -49,8 +49,8 @@ torch.cuda.manual_seed_all(seed)
 train, test = train_test_split(golden_3, test_size=0.2)
 
 # Prepare dataset
-input_ids, attention_masks, labels = prepare_dataset(train, string_label = True)
-val_input_ids, val_attention_masks, val_labels = prepare_dataset(test, string_label = True)
+input_ids, attention_masks, labels = prepare_dataset(train)
+val_input_ids, val_attention_masks, val_labels = prepare_dataset(test)
 
 val_dataloader = get_loader(
     val_input_ids, val_attention_masks, val_labels, batch_size=batch_size, loader_type="VALIDATE"

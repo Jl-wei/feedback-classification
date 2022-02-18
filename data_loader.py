@@ -10,7 +10,7 @@ import logging
 import pandas as pd
 
 
-def prepare_dataset(dataset, string_label = False):
+def prepare_dataset(dataset):
     sentences = dataset.reviews.values
     labels = np.array(dataset.Judgement)
 
@@ -64,8 +64,6 @@ def prepare_dataset(dataset, string_label = False):
     # Convert the lists into tensors.
     input_ids = torch.cat(input_ids, dim=0)
     attention_masks = torch.cat(attention_masks, dim=0)
-    if string_label:
-        labels = convert_judgements_to_number(labels)
     labels = torch.tensor(labels)
 
     # Print sentence 0, now as a list of IDs.
@@ -111,8 +109,8 @@ def train_test_dataloader(config):
     train, test = train_test_split(data_file, test_size=config['test_size'], stratify = np.array(data_file[config['label_column']]))
     
     # Prepare dataset
-    input_ids, attention_masks, labels = prepare_dataset(train, string_label = True)
-    val_input_ids, val_attention_masks, val_labels = prepare_dataset(test, string_label = config['string_label'])
+    input_ids, attention_masks, labels = prepare_dataset(train)
+    val_input_ids, val_attention_masks, val_labels = prepare_dataset(test)
 
     train_dataloader = get_loader(input_ids, attention_masks, labels, batch_size=config['batch_size'])
     val_dataloader = get_loader(
@@ -120,9 +118,3 @@ def train_test_dataloader(config):
     )
     
     return train_dataloader, val_dataloader
-
-
-def convert_judgements_to_number(labels):
-    le = preprocessing.LabelEncoder()
-    targets = le.fit_transform(labels)
-    return targets

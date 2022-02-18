@@ -119,6 +119,5 @@ if __name__ == '__main__':
     
     config['data_file'] = "P3-Golden"
     config['num_labels'] = 5
-    config['string_label'] = True
     main(config)
     
