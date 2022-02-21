@@ -121,3 +121,6 @@ if __name__ == '__main__':
     config['num_labels'] = 5
     main(config)
     
+    config['data_file'] = "SHAH"
+    config['num_labels'] = 4
+    main(config)
