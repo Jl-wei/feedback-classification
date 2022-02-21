@@ -6,3 +6,5 @@ df['Judgement'] = df['labels'].replace(['none', 'Stability', 'quality', 'perform
                         [0, 1, 2, 3, 4], inplace=False)
 
 df.to_excel('P3-Golden.xlsx', index=False)
+
+print(df['Judgement'].value_counts())

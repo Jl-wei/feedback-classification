@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 import xlsxwriter
+import pandas as pd
 
 def convert_xml_to_xlsx(xml_name, worksheet, i):
     tree = ET.parse(f"./SHAH_UNION/{xml_name}.xml")
@@ -31,3 +32,11 @@ if __name__ == '__main__':
     convert_xml_to_xlsx('WHATSAPP', worksheet, i)
     
     workbook.close()
+    
+    df = pd.read_excel('SHAH.xlsx')
+
+    df['Judgement'] = df['labels'].replace(['rate', 'E', 'R', 'B', 'M'], [0, 1, 2, 3, 3], inplace=False)
+
+    df.to_excel('SHAH.xlsx', index=False)
+    
+    print(df['Judgement'].value_counts())
