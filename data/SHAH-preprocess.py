@@ -14,6 +14,8 @@ def convert_xml_to_xlsx(xml_name, worksheet, i):
         worksheet.write(i, 0, review)
         worksheet.write(i, 1, label)
         i += 1
+    
+    return i
 
 
 if __name__ == '__main__':
@@ -23,13 +25,13 @@ if __name__ == '__main__':
     worksheet.write(0, 1, 'labels')
     i = 1
     
-    convert_xml_to_xlsx('ANGRY_BIRD', worksheet, i)
-    convert_xml_to_xlsx('DROP_BOX', worksheet, i)
-    convert_xml_to_xlsx('EVERNOTE', worksheet, i)
-    convert_xml_to_xlsx('PIC_ART', worksheet, i)
-    convert_xml_to_xlsx('PINTEREST', worksheet, i)
-    convert_xml_to_xlsx('TRIP_ADVISOR', worksheet, i)
-    convert_xml_to_xlsx('WHATSAPP', worksheet, i)
+    i = convert_xml_to_xlsx('ANGRY_BIRD', worksheet, i)
+    i = convert_xml_to_xlsx('DROP_BOX', worksheet, i)
+    i = convert_xml_to_xlsx('EVERNOTE', worksheet, i)
+    i = convert_xml_to_xlsx('PIC_ART', worksheet, i)
+    i = convert_xml_to_xlsx('PINTEREST', worksheet, i)
+    i = convert_xml_to_xlsx('TRIP_ADVISOR', worksheet, i)
+    i = convert_xml_to_xlsx('WHATSAPP', worksheet, i)
     
     workbook.close()
     
