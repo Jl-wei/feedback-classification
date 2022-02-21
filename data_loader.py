@@ -25,10 +25,9 @@ def prepare_dataset(dataset):
     )
 
     max_len = 0
-
     # For every sentence...
     for sent in sentences:
-        input_ids = tokenizer.encode(sent, add_special_tokens=True)
+        input_ids = tokenizer.encode(str(sent), add_special_tokens=True)
         max_len = max(max_len, len(input_ids))
 
     logging.info(f"Max sentence length: {max_len}")

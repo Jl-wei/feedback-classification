@@ -11,9 +11,11 @@ def convert_xml_to_xlsx(xml_name, worksheet, i):
         label = child.find('aspectTerms').find('aspectTerm').get('class') if child.find('aspectTerms') else 'rate'
         print(review, label)
         
-        worksheet.write(i, 0, review)
-        worksheet.write(i, 1, label)
-        i += 1
+        # The '=)' review will cause error in BertTokenizer
+        if (review != '=)'):
+            worksheet.write_string(i, 0, review)
+            worksheet.write_string(i, 1, label)
+            i += 1
     
     return i
 
